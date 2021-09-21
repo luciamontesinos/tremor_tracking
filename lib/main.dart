@@ -1,12 +1,11 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
+library tremor_tracking;
 
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+part 'experiment.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<double>? _userAccelerometerValues;
   List<double>? _gyroscopeValues;
   List<double>? _magnetometerValues;
-  Map<DateTime, List<double>>? _values;
+  Map<String, List<double>> _values = {};
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
 
   @override
@@ -61,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('Accelerometer: $DateTime.now(), $accelerometer'),
+                Text('Accelerometer: $accelerometer'),
               ],
             ),
           ),
@@ -92,6 +91,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ElevatedButton(
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Experiment()),
+                        ),
+                    child: Text("Experiment page")),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -111,10 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
     _streamSubscriptions.add(
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
-          _values?.update(DateTime.now(), (value) => <double>[event.x, event.y, event.z]);
-          print(_values);
-          print(_values?.length);
+          String timestamp = DateTime.now().toString();
           setState(() {
+            _values[timestamp] = <double>[event.x, event.y, event.z];
             _accelerometerValues = <double>[event.x, event.y, event.z];
           });
         },
