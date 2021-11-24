@@ -6,53 +6,32 @@ class Experiment extends StatefulWidget {
 }
 
 class _ExperimentState extends State<Experiment> {
-  Map<String, List<double>> _values = {};
-
-  void startExperiment() {
-    print("Starting experiment");
-    userAccelerometerEvents.listen(
-      (UserAccelerometerEvent event) {
-        String timestamp = DateTime.now().toString();
-        _values[timestamp] = <double>[event.x, event.y, event.z];
-      },
-    );
-  }
-
-  void stopExperiment() {
-    print("Experiment stoped");
-    String _str = 'MEASUREMENTS \t| #\n';
-
-    _values.forEach((time, measurement) {
-      double magnitude = getMagnitude(measurement);
-      _str += '$time\t| $measurement\t| $magnitude\n';
-    });
-
-    print(_str);
-  }
-
-  double getMagnitude(List<double> data) {
-    print(data[0]);
-    return sqrt((pow(data[0], 2) + (pow(data[1], 2) + (pow(data[2], 2)))));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sensor Example'),
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: '6pKqv_JKKYo',
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
       ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ElevatedButton(
-            onPressed: () => startExperiment(),
-            child: Text("Start experiment"),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: false,
+              controlsTimeOut: Duration(milliseconds: 1),
+            ),
           ),
-          ElevatedButton(
-            onPressed: () => stopExperiment(),
-            child: Text("Stop experiment"),
-          ),
+          Text("Tutorial text")
         ],
       ),
     );
