@@ -24,16 +24,18 @@ dependencies:
   flutter:
     sdk: flutter
   sensors_plus: ^1.1.0
-  loading_indicator: ^3.0.2
-  youtube_player_flutter: ^8.0.0
   df: 0.4.0-nullsafety.0
   scidart: ^0.0.2-dev.6
   fl_chart: ^0.40.2
   http: ^0.13.4
   json_serializable: ^6.0.1
   syncfusion_flutter_charts: ^19.3.48
+  syncfusion_flutter_datagrid: ^19.3.56
   intl: ^0.17.0
   sqflite: ^2.0.0+4
+  video_player: ^2.2.7
+  
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -56,9 +58,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+    - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

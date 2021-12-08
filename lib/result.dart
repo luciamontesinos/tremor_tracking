@@ -24,7 +24,7 @@ class Result {
   /// Holds size of the datapoint: Magnitude
   final num magnitude;
 
-  /// Holds point color of the datapoint: User Input
+  /// Holds point color of the datapoint: Hand
   final int pointColor;
 
   const Result({
@@ -55,7 +55,7 @@ class Result {
         dateTime: DateTime.parse(json[ResultFields.dateTime] as String),
         frequency: json[ResultFields.frequency] as num,
         magnitude: json[ResultFields.magnitude] as num,
-        pointColor: json[ResultFields.pointColor] as int, //HexColor(json[ResultFields.pointColor] as String),
+        pointColor: json[ResultFields.pointColor] as int,
       );
 
   Map<String, Object?> toJson() => {
@@ -63,7 +63,7 @@ class Result {
         ResultFields.dateTime: dateTime.toString(),
         ResultFields.frequency: frequency,
         ResultFields.magnitude: magnitude,
-        ResultFields.pointColor: pointColor, //.toString(),
+        ResultFields.pointColor: pointColor,
       };
 }
 
