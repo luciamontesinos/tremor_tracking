@@ -1,3 +1,9 @@
+###############################################################################################
+# The majority of this code was extracted from a python notebook included in this forum tread #
+# https://forum.quantifiedself.com/t/tracking-my-tremor/7017/58                               #
+###############################################################################################
+
+
 from flask import Flask, jsonify, request
 import pandas as pd
 import math
@@ -9,7 +15,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.fftpack import fft
 from scipy.interpolate import interp1d
-import seaborn
 
 app = Flask(__name__)
 
@@ -17,8 +22,8 @@ app = Flask(__name__)
 @app.route('/', methods=["POST"])
 def get_data():
     data = request.data
-    # print(data)
     data_raw = pd.read_json(data)
+
     # Get the median interval time for this data (i.e. typical interval)
     intervals = [data_raw.index[i] - data_raw.index[i - 1] for
                  i in range(1, len(data_raw.index))]
@@ -44,17 +49,12 @@ def get_data():
     freqs = freqs_all[1:target_len]
     gf_fft = gf_fft_all[1:target_len]
 
-    plt.figure()
-    plt.plot(freqs, gf_fft)
-
     # Get the maximum value, report the frequency and magintude.
     peak_index = np.argmax(gf_fft)
     peak_freq = freqs[peak_index]
     peak_magnitude = abs(gf_fft[peak_index])
-
-    print("Peak frequency: {} Hz".format(peak_freq))
-    print("Peak magnitude: {}".format(peak_magnitude))
-    timestamp = datetime.fromtimestamp(data_raw.time[0])
+    timestamp = datetime.fromtimestamp(
+        data_raw.time[0]).strftime("%m/%d/%Y, %H:%M:%S")
 
     json_file = {}
     json_file['timestamp'] = timestamp
